@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package="../../server/msg/proto;proto";
+package proto;
+
+import "common.proto";
+
+// 准备
+message C2S_Ready {
+    
+}
+
+// 准备
+message S2C_Ready {
+    ErrorCode error                     = 1;    // 错误码
+}

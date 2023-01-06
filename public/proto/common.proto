@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package="../../server/msg/proto;proto";
+package proto;
+
+// 错误码
+enum ErrorCode {
+	ok                                  = 0;    // 成功
+    internal                            = 1;    // 服务器内部错误
+    login_pwd_error                     = 10;   // 登录密码错误
+}
+
+// 玩家信息
+message PlayerInfo {
+    int32  	id                          = 1;    // 玩家id    
+    string 	nickname                    = 2;    // 昵称
+    string 	head                        = 3;    // 头像的地址 head://id 代表本地头像 http:// 或者https代表网络地址
+    int64  	gold                        = 4;    // 金币
+}
+
+// 游戏信息
+message GameInfo {
+	int32 	id 							= 1;	// 游戏id
+	string 	config 						= 2;	// 游戏配置
+}
+
+// 房间信息
+message RoomInfo {
+    int32   id                          = 1;    // 房间id
+}

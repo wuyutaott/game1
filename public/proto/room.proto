@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option go_package="../../server/msg/proto;proto";
+package proto;
+
+import "common.proto";
+
+// 房间列表
+message C2S_RoomList {
+    
+}
+
+// 房间列表
+message S2C_RoomList {
+    repeated RoomInfo roomInfos         = 1;    // 房间列表 
+}
+
+// 创建房间
+message C2S_CreateRoom {
+    GameInfo gameInfo                   = 1;    // 游戏信息
+    string  pwd                         = 2;    // 房间密码
+}
+
+// 创建房间
+message S2C_CreateRoom {
+    ErrorCode error                     = 1;    // 错误码
+    int32   roomId                      = 2;    // 房间号
+}
+
+// 进入房间
+message C2S_EnterRoom {
+    int32   roomId                      = 1;    // 房间号
+    string  pwd                         = 2;    // 房间密码
+}
+
+// 进入房间
+message S2C_EnterRoom {
+    ErrorCode error                     = 1;    // 错误码
+    GameInfo  gameInfo                  = 2;    // 游戏信息
+}
+
+// 离开房间
+message C2S_LeaveRoom {
+
+}
+
+// 离开房间
+message S2C_LeaveRoom {
+    ErrorCode error                     = 1;    // 错误码
+}
+
+// 说话
+message C2S_Speak {
+    PlayerInfo playerInfo               = 1;    // 玩家信息
+    string speak                        = 2;    // 弹幕内容       
+}
+
+// 说话
+message S2C_Speak {
+    PlayerInfo playerInfo               = 1;    // 玩家信息
+    string speak                        = 2;    // 弹幕内容          
+}
+
+// 被踢出房间
+message S2C_KickOutRoom {
+    ErrorCode error                     = 1;    // 错误码
+}
+

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package="../../server/msg/proto;proto";
+package proto;
+
+import "common.proto";
+
+message C2S_Test {
+    
+}
+
+message S2C_Test {
+    
+}

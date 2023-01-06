@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+option go_package="../../server/msg/proto;proto";
+package proto;
+
+import "common.proto";
+
+// 注册
+message C2S_Register {
+    string account                      = 1;    // 账户 玩家id / 手机号
+    string pwd                          = 2;    // 密码
+}
+
+// 注册
+message S2C_Register {
+    ErrorCode error                     = 1;    // 错误码
+}
+
+// 登录
+message C2S_Login {
+	string account 	                    = 1;    // 账户 玩家id / 手机号
+	string pwd 	                        = 2;    // 密码
+}
+
+// 登录
+message S2C_Login {
+    ErrorCode error                     = 1;    // 错误码
+    PlayerInfo playerInfo               = 2;    // 玩家信息
+}
+
+// 登出
+message C2S_Logout {
+
+}
+
+// 登出
+message S2C_Logout {
+    
+}
+
+// 被踢出大厅
+message S2C_KickOutLobby {
+}
