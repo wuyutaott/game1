@@ -20,13 +20,15 @@ export default class Test1 extends cc.Component {
     }
 
     onBtnTest() {
-        // let msg = new proto.C2S_Test;
-        // MsgCenter.getInstance().send(msg);       
+        let msg = new proto.C2S_Test;
+        MsgCenter.getInstance().send(msg);       
         
-        let uint8Arr = new Uint8Array([0, 21, 8, 230, 220, 172, 146, 4, 16, 132, 168, 237, 198, 4]); 
-        let dataView = new DataView(uint8Arr.buffer);
-        let opcode = dataView.getUint16(0, false);
-        console.log('opcode = ', opcode);        
+        // let uint8Arr = new Uint8Array([0, 21, 8, 230, 220, 172, 146, 4, 16, 132, 168, 237, 198, 4]); 
+        // let dataView = new DataView(uint8Arr.buffer);
+        // let opcode = dataView.getUint16(0, false);
+        // console.log('opcode = ', opcode);
+        // let obj = proto.S2C_Test.decode(uint8Arr.slice(2, uint8Arr.length));
+        // console.log(obj);
     }
 
     S2C_Test(msg: proto.S2C_Test) {

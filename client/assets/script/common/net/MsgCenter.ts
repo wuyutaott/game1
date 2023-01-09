@@ -79,22 +79,18 @@ export default class MsgCenter extends cc.EventTarget {
      * @param header 包头 
      * @param buffer proto数据
      */
-    private onReceive(opCode: number, buffer: ArrayBuffer): void {
+    private onReceive(opCode: number, data: Uint8Array): void {
         let pb = protoMap[opCode];
-            if (pb) {
+        if (pb) {
             let call = null;
             if (pb.msg) {
                 try {
-                    call = pb.msg.decode(new Uint8Array(buffer));
+                    call = pb.msg.decode(data);
                 } catch (error) {
-                    Log.e(`ProtoBuf解析失败，pb = ${pb.logMsg}, opCode = ${opCode}，buffer = [${new Uint8Array(buffer)}]`);
+                    Log.e(`ProtoBuf解析失败，pb = ${pb.logMsg}, opCode = ${opCode}，buffer = [${data}]`);
                     return;
                 }
-            }
-            else { 
-                call = null;
-                return Log.e(`${pb.logMsg} ${opCode}-> ProtoBuf类未找到`);
-            }                       
+            }                     
                                         
             if (!cfg_opcode_exclude[opCode]) {
                 let str = JSON.stringify(Tools.shallowCopy(call));
@@ -103,7 +99,7 @@ export default class MsgCenter extends cc.EventTarget {
                          
             this.emit(opCode.toString(), call);            
         } else {
-            Log.d(`没有处理的命令号->${opCode}`);
+            Log.d(`opCode未注册->${opCode}`);
         }
     }
 }
