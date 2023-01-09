@@ -20,23 +20,24 @@ export default class Peer extends cc.EventTarget {
         super()
         this.readByte = new ByteArray();
         this.writeByte = new ByteArray();
-        this.readyArray = new ByteArray();
-        this.writeArray = new ByteArray();
-        this.protoArray = new ByteArray();
 
-        this.readyArray.endian = Endian.LITTLE_ENDIAN;    
-        this.writeArray.endian = Endian.LITTLE_ENDIAN;        
-        this.protoArray.endian = Endian.LITTLE_ENDIAN;
+        this.readyArray = new ByteArray();
+        this.readyArray.endian = Endian.BIG_ENDIAN;
+        this.writeArray = new ByteArray();
+        this.writeArray.endian = Endian.BIG_ENDIAN;
+        this.protoArray = new ByteArray();
+        this.protoArray.endian = Endian.BIG_ENDIAN;
     }
 
-    public connect(url: string) {
+    public connect(url: string) {                       
         this.socket = new WebSocket(url);
-        this.id = ++Peer.ID_INC;        
+        this.socket.onclose = this.onclose.bind(this);
+        this.socket.onerror = this.onerror.bind(this);
+        this.socket.onmessage = this.onmessage.bind(this);
+        this.socket.onopen = this.onopen.bind(this);  
+        this.socket.binaryType = "arraybuffer";
 
-        this.socket.onclose = this.onclose;
-        this.socket.onerror = this.onerror;
-        this.socket.onmessage = this.onmessage;
-        this.socket.onopen = this.onopen;        
+        this.id = ++Peer.ID_INC; 
     }
 
     public close() {
@@ -71,7 +72,8 @@ export default class Peer extends cc.EventTarget {
         this.readyArray.clear();
         this.protoArray.clear();
 
-        this.readByte.writeUint8Array(new Uint8Array(ev.data));
+        let uint8Arr = new Uint8Array(ev.data);        
+        this.readByte.writeUint8Array(uint8Arr);
         this.readByte.position = 0;
         this.readByte.readBytes(this.readyArray);
 

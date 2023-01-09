@@ -2212,7 +2212,7 @@ export namespace proto {
         id1?: (number|null);
 
         /** S2C_Test id2 */
-        id2?: (number|Long|null);
+        id2?: (number|null);
     }
 
     /** Represents a S2C_Test. */
@@ -2228,7 +2228,7 @@ export namespace proto {
         public id1: number;
 
         /** S2C_Test id2. */
-        public id2: (number|Long);
+        public id2: number;
 
         /**
          * Creates a new S2C_Test instance using the specified properties.

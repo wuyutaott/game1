@@ -20,8 +20,8 @@ export default class Test1 extends cc.Component {
     }
 
     onBtnTest() {
-        let msg = proto.C2S_Test;
-        MsgCenter.getInstance().send(msg);
+        let msg = new proto.C2S_Test;
+        MsgCenter.getInstance().send(msg);        
     }
 
     S2C_Test(msg: proto.S2C_Test) {

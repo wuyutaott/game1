@@ -81,7 +81,7 @@ func main() {
 	log.Debug("开始生成 opcode.ts")
 	opcode := genOpcode()
 	projectUrl := getCurrentAbPathByCaller()
-	opcodeUrl := path.Join(projectUrl, "../public/proto/opcode.ts")
+	opcodeUrl := path.Join(projectUrl, "../../public/proto/opcode.ts")
 	err := ioutil.WriteFile(opcodeUrl, []byte(opcode), 0666)
 	if err != nil {
 		log.Debug(err.Error())

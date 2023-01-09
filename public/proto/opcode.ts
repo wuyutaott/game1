@@ -1,4 +1,6 @@
 
+import {proto} from "./proto"
+		
 export class ProtoMapItem {
 	opcode: number;
 	msg: any;

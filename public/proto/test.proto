@@ -10,5 +10,6 @@ message C2S_Test {
 }
 
 message S2C_Test {
-    
+    int32 id1 = 1;
+    int32 id2 = 2;
 }

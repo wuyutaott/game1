@@ -4823,7 +4823,7 @@ $root.proto = (function() {
          * @memberof proto
          * @interface IS2C_Test
          * @property {number|null} [id1] S2C_Test id1
-         * @property {number|Long|null} [id2] S2C_Test id2
+         * @property {number|null} [id2] S2C_Test id2
          */
 
         /**
@@ -4851,11 +4851,11 @@ $root.proto = (function() {
 
         /**
          * S2C_Test id2.
-         * @member {number|Long} id2
+         * @member {number} id2
          * @memberof proto.S2C_Test
          * @instance
          */
-        S2C_Test.prototype.id2 = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        S2C_Test.prototype.id2 = 0;
 
         /**
          * Creates a new S2C_Test instance using the specified properties.
@@ -4884,7 +4884,7 @@ $root.proto = (function() {
             if (message.id1 != null && Object.hasOwnProperty.call(message, "id1"))
                 writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id1);
             if (message.id2 != null && Object.hasOwnProperty.call(message, "id2"))
-                writer.uint32(/* id 2, wireType 0 =*/16).int64(message.id2);
+                writer.uint32(/* id 2, wireType 0 =*/16).int32(message.id2);
             return writer;
         };
 
@@ -4923,7 +4923,7 @@ $root.proto = (function() {
                     message.id1 = reader.int32();
                     break;
                 case 2:
-                    message.id2 = reader.int64();
+                    message.id2 = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -4964,8 +4964,8 @@ $root.proto = (function() {
                 if (!$util.isInteger(message.id1))
                     return "id1: integer expected";
             if (message.id2 != null && message.hasOwnProperty("id2"))
-                if (!$util.isInteger(message.id2) && !(message.id2 && $util.isInteger(message.id2.low) && $util.isInteger(message.id2.high)))
-                    return "id2: integer|Long expected";
+                if (!$util.isInteger(message.id2))
+                    return "id2: integer expected";
             return null;
         };
 
@@ -4984,14 +4984,7 @@ $root.proto = (function() {
             if (object.id1 != null)
                 message.id1 = object.id1 | 0;
             if (object.id2 != null)
-                if ($util.Long)
-                    (message.id2 = $util.Long.fromValue(object.id2)).unsigned = false;
-                else if (typeof object.id2 === "string")
-                    message.id2 = parseInt(object.id2, 10);
-                else if (typeof object.id2 === "number")
-                    message.id2 = object.id2;
-                else if (typeof object.id2 === "object")
-                    message.id2 = new $util.LongBits(object.id2.low >>> 0, object.id2.high >>> 0).toNumber();
+                message.id2 = object.id2 | 0;
             return message;
         };
 
@@ -5010,19 +5003,12 @@ $root.proto = (function() {
             var object = {};
             if (options.defaults) {
                 object.id1 = 0;
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.id2 = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.id2 = options.longs === String ? "0" : 0;
+                object.id2 = 0;
             }
             if (message.id1 != null && message.hasOwnProperty("id1"))
                 object.id1 = message.id1;
             if (message.id2 != null && message.hasOwnProperty("id2"))
-                if (typeof message.id2 === "number")
-                    object.id2 = options.longs === String ? String(message.id2) : message.id2;
-                else
-                    object.id2 = options.longs === String ? $util.Long.prototype.toString.call(message.id2) : options.longs === Number ? new $util.LongBits(message.id2.low >>> 0, message.id2.high >>> 0).toNumber() : message.id2;
+                object.id2 = message.id2;
             return object;
         };
 
