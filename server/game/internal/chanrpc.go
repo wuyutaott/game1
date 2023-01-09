@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"github.com/wuyutaott/leaf/gate"
 	"github.com/wuyutaott/leaf/log"
 	"server/base"
@@ -16,6 +17,7 @@ func init() {
 func rpcNewAgent(args []interface{}) {
 	a := args[0].(gate.Agent)
 	_ = a
+	fmt.Println("新客户端登录")
 }
 
 func rpcCloseAgent(args []interface{}) {
