@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
+	"github.com/wuyutaott/leaf/gate"
+	"github.com/wuyutaott/leaf/log"
 	"reflect"
 	"server/msg/proto"
 )
@@ -47,7 +47,7 @@ func C2S_CreateRoom(args []interface{}) {
 	roomID := RoomMgr.CreateRoom()
 
 	c.WriteMsg(&proto.S2C_CreateRoom{
-		Error: proto.ErrorCode_ok,
+		Error:  proto.ErrorCode_ok,
 		RoomId: roomID,
 	})
 }

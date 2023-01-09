@@ -1,8 +1,8 @@
 package base
 
 import (
-	"github.com/name5566/leaf/chanrpc"
-	"github.com/name5566/leaf/module"
+	"github.com/wuyutaott/leaf/chanrpc"
+	"github.com/wuyutaott/leaf/module"
 	"server/conf"
 )
 

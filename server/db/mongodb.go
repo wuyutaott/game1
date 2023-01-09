@@ -1,10 +1,10 @@
 package db
 
 import (
-	"github.com/name5566/leaf/db/mongodb"
-	"github.com/name5566/leaf/go"
-	"github.com/name5566/leaf/log"
-	"github.com/name5566/leaf/module"
+	"github.com/wuyutaott/leaf/db/mongodb"
+	"github.com/wuyutaott/leaf/go"
+	"github.com/wuyutaott/leaf/log"
+	"github.com/wuyutaott/leaf/module"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
@@ -13,7 +13,7 @@ import (
 
 type Mongodb struct {
 	*mongodb.DialContext
-	linearWorkers 	[]*g.LinearContext
+	linearWorkers []*g.LinearContext
 }
 
 func Dial(url string, sessionNum int, skeleton *module.Skeleton) (*Mongodb, error) {
@@ -27,7 +27,7 @@ func Dial(url string, sessionNum int, skeleton *module.Skeleton) (*Mongodb, erro
 	}
 
 	workers := make([]*g.LinearContext, 0)
-	for i := 0; i < sessionNum>>1; i ++ {
+	for i := 0; i < sessionNum>>1; i++ {
 		workers = append(workers, skeleton.NewLinearContext())
 	}
 	return &Mongodb{c, workers}, err
@@ -35,7 +35,7 @@ func Dial(url string, sessionNum int, skeleton *module.Skeleton) (*Mongodb, erro
 
 func hash(str string) int {
 	h := uint(1315423911)
-	for i := 0; i < len(str); i ++ {
+	for i := 0; i < len(str); i++ {
 		h ^= ((uint(str[i]) << 5) + uint(str[i]) + (h >> 2))
 	}
 	return int(h & 0x7fffffff)
@@ -102,7 +102,7 @@ func (db *Mongodb) Set(task base.DBTask) {
 
 func (db *Mongodb) IncreSeq(dbname, collection, id string, cb func(interface{}, error)) {
 	w := db.worker(id)
-	var res struct { Seq int64 }
+	var res struct{ Seq int64 }
 	var err error
 	w.Go(func() {
 		s := db.Ref()

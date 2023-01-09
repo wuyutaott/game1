@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/log"
-	"github.com/name5566/leaf/module"
+	"github.com/wuyutaott/leaf/log"
+	"github.com/wuyutaott/leaf/module"
 	"server/base"
 	"server/conf"
 	"server/db"
@@ -11,7 +11,7 @@ import (
 var (
 	skeleton = base.NewSkeleton()
 	ChanRPC  = skeleton.ChanRPCServer
-	mgodb	 = new (db.Mongodb)
+	mgodb    = new(db.Mongodb)
 )
 
 type Module struct {

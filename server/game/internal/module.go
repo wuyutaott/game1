@@ -1,20 +1,20 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/log"
-	"github.com/name5566/leaf/module"
+	"github.com/wuyutaott/leaf/log"
+	"github.com/wuyutaott/leaf/module"
 	"server/base"
 	"server/conf"
 	"server/db"
 )
 
 var (
-	skeleton 	= base.NewSkeleton()
-	ChanRPC  	= skeleton.ChanRPCServer
-	PlayerMgr 	= NewPlayerManager()
-	RoomMgr 	= NewRoomManager()
-	mgodb    	= new(db.Mongodb)
-	uidbuilder 	= new(UidBuilder)
+	skeleton   = base.NewSkeleton()
+	ChanRPC    = skeleton.ChanRPCServer
+	PlayerMgr  = NewPlayerManager()
+	RoomMgr    = NewRoomManager()
+	mgodb      = new(db.Mongodb)
+	uidbuilder = new(UidBuilder)
 )
 
 type Module struct {

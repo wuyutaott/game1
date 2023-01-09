@@ -1,13 +1,13 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/log"
+	"github.com/wuyutaott/leaf/log"
 	"gopkg.in/mgo.v2"
 	"server/base"
 )
 
 type UidBuilder struct {
-	Seq 	int64
+	Seq int64
 }
 
 func (builder *UidBuilder) Init() {
@@ -33,6 +33,6 @@ func (builder *UidBuilder) GenerateUID() int64 {
 		}
 	})
 
-	builder.Seq ++
+	builder.Seq++
 	return 10000 + builder.Seq
 }

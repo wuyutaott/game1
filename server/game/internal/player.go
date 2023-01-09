@@ -1,17 +1,17 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
-	"github.com/name5566/leaf/util"
+	"github.com/wuyutaott/leaf/gate"
+	"github.com/wuyutaott/leaf/log"
+	"github.com/wuyutaott/leaf/util"
 	"server/base"
 )
 
 type Player struct {
-	objid 		string
-	agent 		gate.Agent
-	UID 		int64
-	Account 	string
+	objid   string
+	agent   gate.Agent
+	UID     int64
+	Account string
 }
 
 func CreatePlayer() *Player {
@@ -24,7 +24,7 @@ func (p *Player) Save() {
 		if nil != err {
 			log.Error("save playerdata failed:", p.objid)
 		}
-	} })
+	}})
 }
 
 func (p *Player) SaveSync() {
@@ -33,7 +33,7 @@ func (p *Player) SaveSync() {
 
 func (p *Player) InitData(account string) {
 	p.Account = account
-	p.UID     = uidbuilder.GenerateUID()
+	p.UID = uidbuilder.GenerateUID()
 }
 
 func (p *Player) OnLogin() {

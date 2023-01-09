@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
+	"github.com/wuyutaott/leaf/gate"
+	"github.com/wuyutaott/leaf/log"
 	"server/base"
 	"server/msg/proto"
 )
@@ -66,10 +66,10 @@ func rpcLoginSuccess(args []interface{}) {
 		player.Send(&proto.S2C_Login{
 			Error: proto.ErrorCode_ok,
 			PlayerInfo: &proto.PlayerInfo{
-				Id: 0,
+				Id:       0,
 				Nickname: "玩家昵称",
-				Head: "head://default",
-				Gold: 0,
+				Head:     "head://default",
+				Gold:     0,
 			},
 		})
 		// oss.ActionLog(player.objid, player.UID, oss.BILLID_LOGIN, nil)

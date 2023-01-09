@@ -3,11 +3,7 @@ module server
 go 1.16
 
 require (
-	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/name5566/leaf v0.0.0-20200516012428-8592b1abbbbe
-	google.golang.org/protobuf v1.26.0
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
+	github.com/wuyutaott/leaf v0.0.0-20230109165426-b970bac9fa2a
+	google.golang.org/protobuf v1.28.1
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

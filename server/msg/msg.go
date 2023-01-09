@@ -1,7 +1,7 @@
 package msg
 
 import (
-	"github.com/name5566/leaf/network/protobuf"
+	"github.com/wuyutaott/leaf/network/protobuf"
 	"server/msg/proto"
 )
 

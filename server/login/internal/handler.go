@@ -1,8 +1,8 @@
 package internal
 
 import (
-	"github.com/name5566/leaf/gate"
-	"github.com/name5566/leaf/log"
+	"github.com/wuyutaott/leaf/gate"
+	"github.com/wuyutaott/leaf/log"
 	"gopkg.in/mgo.v2/bson"
 	"reflect"
 	"server/base"
