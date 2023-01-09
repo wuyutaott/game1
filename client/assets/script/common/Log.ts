@@ -17,20 +17,20 @@ export default class Log {
 
 	static d(obj: any, ...optionalParams: Array<any>): void {
 		if (Log._isOpen == false) return;
-		console.log(obj, ...optionalParams, `    ${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
+		console.log(obj, ...optionalParams, `${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
 	}
 
 	static i(obj: any, ...optionalParams: Array<any>): void {
 		if (Log._isOpen == false) return;
-		console.log(obj, ...optionalParams, `    ${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
+		console.log(obj, ...optionalParams, `${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
 	}
 
 	static w(obj: any, ...optionalParams: Array<any>): void {
 		if (Log._isOpen == false) return;
-		console.warn(obj, ...optionalParams, `    ${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
+		console.warn(obj, ...optionalParams, `${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
 	}
 
 	static e(obj: any, ...optionalParams: Array<any>): void {
-		console.error(obj, ...optionalParams, `    ${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
+		console.error(obj, ...optionalParams, `${DateHelper.format(new Date(), 'MM-dd hh:mm:ss:S')}`);
 	}
 }

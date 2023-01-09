@@ -23,9 +23,7 @@ export default class MsgCenter extends cc.EventTarget {
         let id = peer.getID();
         this.perMap.set(id, peer);
         this.curPerId = id;
-        console.log("perMap.size = ", this.perMap.size);
-
-        peer.on(Peer.PEER_RECEIVE, this.onReceive, this);
+        peer.on(Peer.ON_MESSAGE, this.onMessage, this);
     }
 
     public close() {
@@ -61,7 +59,7 @@ export default class MsgCenter extends cc.EventTarget {
             if (!cfg_opcode_exclude[opCode]) {
                 let msg = "";
                 if (data) msg = JSON.stringify(data);
-                Log.d(`发->命令号${opCode}   命令名字:${pb.logMsg}  内容:${msg}`);
+                Log.d(`发->${pb.logMsg} 内容:${msg}`);
             }
             return true;
         } else {
@@ -79,7 +77,7 @@ export default class MsgCenter extends cc.EventTarget {
      * @param header 包头 
      * @param buffer proto数据
      */
-    private onReceive(opCode: number, data: Uint8Array): void {
+    private onMessage(opCode: number, data: Uint8Array): void {
         let pb = protoMap[opCode];
         if (pb) {
             let call = null;
@@ -94,7 +92,7 @@ export default class MsgCenter extends cc.EventTarget {
                                         
             if (!cfg_opcode_exclude[opCode]) {
                 let str = JSON.stringify(Tools.shallowCopy(call));
-                Log.d(`收->命令号${opCode}  命令名字:${pb.logMsg}  内容:${str}`);
+                Log.d(`收->${pb.logMsg} 内容:${str}`);
             }
                          
             this.emit(opCode.toString(), call);            

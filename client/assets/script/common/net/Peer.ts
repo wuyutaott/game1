@@ -1,14 +1,15 @@
 export default class Peer extends cc.EventTarget {
-    public static readonly PEER_CLOSE: string = "close";
-    public static readonly PEER_ERROR: string = "error";
-    public static readonly PEER_RECEIVE: string = "receive";
-    public static readonly PEER_CONNECT: string = "connect";
+    public static readonly ON_CLOSE: string = 'onclose';
+    public static readonly ON_ERROR: string = 'onerror';
+    public static readonly ON_MESSAGE: string = 'onmessage';
+    public static readonly ON_OPEN: string = 'onopen';
 
     private static ID_INC: number = 0;
     private socket: WebSocket = null;
     private id: number = 0;
 
-    public connect(url: string) {                       
+    public connect(url: string) {  
+        console.log('websocket开始连接 -> ', url);
         this.socket = new WebSocket(url);
         this.socket.onclose = this.onclose.bind(this);
         this.socket.onerror = this.onerror.bind(this);
@@ -21,6 +22,7 @@ export default class Peer extends cc.EventTarget {
 
     public close() {
         this.socket.close(1000)
+        console.log('websocket关闭连接');
     }
 
     public getID(): number {
@@ -36,11 +38,11 @@ export default class Peer extends cc.EventTarget {
     }
 
     private onclose(ev: CloseEvent) {
-        console.log('onclose', ev);
+        this.emit(Peer.ON_CLOSE);
     }
 
     private onerror(ev: Event) {
-        console.log('onerror', ev);
+        this.emit(Peer.ON_ERROR);
     }
 
     private onmessage(ev: MessageEvent) {
@@ -48,10 +50,10 @@ export default class Peer extends cc.EventTarget {
         let dataView = new DataView(uint8Arr.buffer);
         let opCode = dataView.getUint16(0, false);
         let data = uint8Arr.slice(2, uint8Arr.length);
-        this.emit(Peer.PEER_RECEIVE, opCode, data);
+        this.emit(Peer.ON_MESSAGE, opCode, data);
     }
 
     private onopen(ev: Event) {
-        console.log('onopen', ev);
+        this.emit(Peer.ON_OPEN);
     }
 }
