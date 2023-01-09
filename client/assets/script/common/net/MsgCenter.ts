@@ -6,12 +6,12 @@ import Peer from "./Peer";
 
 export default class MsgCenter extends cc.EventTarget {
     private constructor() { super() }
-    private static ins: MsgCenter = null;
-    public static getInstance() {
-        if (!MsgCenter.ins) {
-            MsgCenter.ins = new MsgCenter();
+    private static instance: MsgCenter = null;
+    public static get Ins(): MsgCenter {
+        if (!MsgCenter.instance) {
+            MsgCenter.instance = new MsgCenter();
         }
-        return MsgCenter.ins;
+        return MsgCenter.instance;
     }    
 
     perMap: Map<number, Peer> = new Map;

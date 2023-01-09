@@ -1,6 +1,8 @@
+import { URI } from "../cfg/cfg_global";
 import { cmd } from "../cmd/opcode";
 import { proto } from "../cmd/proto";
 import MsgCenter from "../common/net/MsgCenter";
+import { G } from "../Global";
 
 const {ccclass, property} = cc._decorator;
 
@@ -8,20 +10,20 @@ const {ccclass, property} = cc._decorator;
 export default class Test1 extends cc.Component {
 
     protected onLoad(): void {
-        MsgCenter.getInstance().on(cmd.S2C_Test, this.S2C_Test, this);
+        MsgCenter.Ins.on(cmd.S2C_Test, this.S2C_Test, this);
     }
 
     onBtnConnect() {
-        MsgCenter.getInstance().connect('ws://127.0.0.1:8080/login/client');
+        MsgCenter.Ins.connect(`ws://${G.GAME_SERVER_ADDR}:${G.GAME_SERVER_PORT}/${URI.LOGIN}`);
     }
 
     onBtnClose() {
-        MsgCenter.getInstance().close();
+        MsgCenter.Ins.close();
     }
 
     onBtnTest() {
         let msg = new proto.C2S_Test;
-        MsgCenter.getInstance().send(msg);
+        MsgCenter.Ins.send(msg);
     }
 
     S2C_Test(msg: proto.S2C_Test) {

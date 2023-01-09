@@ -1,10 +1,10 @@
 export default class Singleton {
     private constructor() {}
-    private static ins: Singleton = null;
-    public static getInstance() {
-        if (!Singleton.ins) {
-            Singleton.ins = new Singleton();
+    private static instance: Singleton = null;
+    public static get Ins(): Singleton {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
         }
-        return Singleton.ins;
-    }
+        return Singleton.instance;
+    }  
 }
