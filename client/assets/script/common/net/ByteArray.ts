@@ -63,7 +63,7 @@ export default class ByteArray {
     /**
      * @private
      */
-    protected bufferExtSize = 0;//Buffer expansion size
+    protected bufferExtSize = 0; // Buffer expansion size
 
     protected data: DataView;
 
@@ -135,16 +135,6 @@ export default class ByteArray {
         this.endian = Endian.BIG_ENDIAN;
     }
 
-
-    /**
-     * @deprecated
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    public setArrayBuffer(buffer: ArrayBuffer): void {
-
-    }
-
     /**
      * 可读的剩余字节数
      * 
@@ -211,6 +201,7 @@ export default class ByteArray {
     public get bufferOffset(): number {
         return this.data.byteOffset;
     }
+
     /**
      * 将文件指针的当前位置（以字节为单位）移动或返回到 ByteArray 对象中。下一次调用读取方法时将在此位置开始读取，或者下一次调用写入方法时将在此位置开始写入。
      * @version Egret 2.4
@@ -264,16 +255,6 @@ export default class ByteArray {
     }
 
     /**
-     * 可从字节数组的当前位置到数组末尾读取的数据的字节数。
-     * 每次访问 ByteArray 对象时，将 bytesAvailable 属性与读取方法结合使用，以确保读取有效的数据。
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public get bytesAvailable(): number {
-        return this.data.byteLength - this._position;
-    }
-
-    /**
      * 清除字节数组的内容，并将 length 和 position 属性重置为 0。
      * @platform Web,Native
      * @language zh_CN
@@ -284,26 +265,7 @@ export default class ByteArray {
         this._bytes = new Uint8Array(buffer);
         this._position = 0;
         this.write_position = 0;
-    }
- 
-    /**
-     * 从字节流中读取布尔值。读取单个字节，如果字节非零，则返回 true，否则返回 false
-     * @return 如果字节不为零，则返回 true，否则返回 false
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readBoolean(): boolean {
-        if (this.validate(ByteArraySize.SIZE_OF_BOOLEAN)) return !!this._bytes[this.position++];
-    }
-    /**
-     * 从字节流中读取带符号的字节
-     * @return 介于 -128 和 127 之间的整数
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readByte(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_INT8)) return this.data.getInt8(this.position++);
-    }
+    }    
 
     /**
      * 从字节流中读取 length 参数指定的数据字节数。从 offset 指定的位置开始，将字节读入 bytes 参数指定的 ByteArray 对象中，并将字节写入目标 ByteArray 中
@@ -336,120 +298,8 @@ export default class ByteArray {
         bytes._position = position;
         bytes._bytes.set(this._bytes.subarray(pos, pos + length), offset);
         this.position += length;
-    }
-  
-    /**
-     * 从字节流中读取一个 IEEE 754 双精度（64 位）浮点数
-     * @return 双精度（64 位）浮点数
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readDouble(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_FLOAT64)) {
-            let value = this.data.getFloat64(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
-            this.position += ByteArraySize.SIZE_OF_FLOAT64;
-            return value;
-        }
-    }
-
-
-    /**
-     * 从字节流中读取一个 IEEE 754 单精度（32 位）浮点数
-     * @return 单精度（32 位）浮点数
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readFloat(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_FLOAT32)) {
-            let value = this.data.getFloat32(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
-            this.position += ByteArraySize.SIZE_OF_FLOAT32;
-            return value;
-        }
-    }
-
-    /**
-     * 从字节流中读取一个带符号的 32 位整数
-     * @return 介于 -2147483648 和 2147483647 之间的 32 位带符号整数
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readInt(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_INT32)) {
-            let value = this.data.getInt32(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
-            this.position += ByteArraySize.SIZE_OF_INT32;
-            return value;
-        }
-    }
-
-    /**
-     * Read a 16-bit signed integer from the byte stream.
-     * @return A 16-bit signed integer ranging from -32768 to 32767
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 从字节流中读取一个带符号的 16 位整数
-     * @return 介于 -32768 和 32767 之间的 16 位带符号整数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readShort(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_INT16)) {
-            let value = this.data.getInt16(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
-            this.position += ByteArraySize.SIZE_OF_INT16;
-            return value;
-        }
-    }
-
-    /**
-     * Read unsigned bytes from the byte stream.
-     * @return A unsigned integer ranging from 0 to 255
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 从字节流中读取无符号的字节
-     * @return 介于 0 和 255 之间的无符号整数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readUnsignedByte(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_UINT8)) return this._bytes[this.position++];
-    }
-
-    /**
-     * Read a 32-bit unsigned integer from the byte stream.
-     * @return A 32-bit unsigned integer ranging from 0 to 4294967295
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 从字节流中读取一个无符号的 32 位整数
-     * @return 介于 0 和 4294967295 之间的 32 位无符号整数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readUnsignedInt(): number {
-        if (this.validate(ByteArraySize.SIZE_OF_UINT32)) {
-            let value = this.data.getUint32(this._position, this.$endian == EndianConst.LITTLE_ENDIAN);
-            this.position += ByteArraySize.SIZE_OF_UINT32;
-            return value;
-        }
-    }
-
-    /**
-     * Read a 16-bit unsigned integer from the byte stream.
-     * @return A 16-bit unsigned integer ranging from 0 to 65535
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
+    }      
+ 
     /**
      * 从字节流中读取一个无符号的 16 位整数
      * @return 介于 0 和 65535 之间的 16 位无符号整数
@@ -463,108 +313,8 @@ export default class ByteArray {
             this.position += ByteArraySize.SIZE_OF_UINT16;
             return value;
         }
-    }
+    }   
 
-    /**
-     * Read a UTF-8 character string from the byte stream Assume that the prefix of the character string is a short unsigned integer (use byte to express length)
-     * @return UTF-8 character string
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 从字节流中读取一个 UTF-8 字符串。假定字符串的前缀是无符号的短整型（以字节表示长度）
-     * @return UTF-8 编码的字符串
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readUTF(): string {
-        let length = this.readUnsignedShort();
-        if (length > 0) {
-            return this.readUTFBytes(length);
-        } else {
-            return "";
-        }
-    }
-
-    /**
-     * Read a UTF-8 byte sequence specified by the length parameter from the byte stream, and then return a character string
-     * @param Specify a short unsigned integer of the UTF-8 byte length
-     * @return A character string consists of UTF-8 bytes of the specified length
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 从字节流中读取一个由 length 参数指定的 UTF-8 字节序列，并返回一个字符串
-     * @param length 指明 UTF-8 字节长度的无符号短整型数
-     * @return 由指定长度的 UTF-8 字节组成的字符串
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public readUTFBytes(length: number): string {
-        if (!this.validate(length)) {
-            return;
-        }
-        let data = this.data;
-        let bytes = new Uint8Array(data.buffer, data.byteOffset + this._position, length);
-        this.position += length;
-        return this.decodeUTF8(bytes);
-    }
-
-    /**
-     * Write a Boolean value. A single byte is written according to the value parameter. If the value is true, write 1; if the value is false, write 0.
-     * @param value A Boolean value determining which byte is written. If the value is true, write 1; if the value is false, write 0.
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 写入布尔值。根据 value 参数写入单个字节。如果为 true，则写入 1，如果为 false，则写入 0
-     * @param value 确定写入哪个字节的布尔值。如果该参数为 true，则该方法写入 1；如果该参数为 false，则该方法写入 0
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeBoolean(value: boolean): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_BOOLEAN);
-        this._bytes[this.position++] = +value;
-    }
-
-    /**
-     * Write a byte into the byte stream
-     * The low 8 bits of the parameter are used. The high 24 bits are ignored.
-     * @param value A 32-bit integer. The low 8 bits will be written into the byte stream
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 在字节流中写入一个字节
-     * 使用参数的低 8 位。忽略高 24 位
-     * @param value 一个 32 位整数。低 8 位将被写入字节流
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeByte(value: number): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_INT8);
-        this._bytes[this.position++] = value & 0xff;
-    }
-
-    /**
-     * Write the byte sequence that includes length bytes in the specified byte array, bytes, (starting at the byte specified by offset, using a zero-based index), into the byte stream
-     * If the length parameter is omitted, the default length value 0 is used and the entire buffer starting at offset is written. If the offset parameter is also omitted, the entire buffer is written
-     * If the offset or length parameter is out of range, they are clamped to the beginning and end of the bytes array.
-     * @param bytes ByteArray Object
-     * @param offset A zero-based index specifying the position into the array to begin writing
-     * @param length An unsigned integer specifying how far into the buffer to write
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
     /**
      * 将指定字节数组 bytes（起始偏移量为 offset，从零开始的索引）中包含 length 个字节的字节序列写入字节流
      * 如果省略 length 参数，则使用默认长度 0；该方法将从 offset 开始写入整个缓冲区。如果还省略了 offset 参数，则写入整个缓冲区
@@ -593,115 +343,8 @@ export default class ByteArray {
             this._bytes.set(bytes._bytes.subarray(offset, offset + writeLength), this._position);
             this.position = this._position + writeLength;
         }
-    }
+    }          
 
-    /**
-     * Write an IEEE 754 double-precision (64 bit) floating point number into the byte stream
-     * @param value Double-precision (64 bit) floating point number
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 在字节流中写入一个 IEEE 754 双精度（64 位）浮点数
-     * @param value 双精度（64 位）浮点数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeDouble(value: number): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_FLOAT64);
-        this.data.setFloat64(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
-        this.position += ByteArraySize.SIZE_OF_FLOAT64;
-    }
-
-    /**
-     * Write an IEEE 754 single-precision (32 bit) floating point number into the byte stream
-     * @param value Single-precision (32 bit) floating point number
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 在字节流中写入一个 IEEE 754 单精度（32 位）浮点数
-     * @param value 单精度（32 位）浮点数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeFloat(value: number): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_FLOAT32);
-        this.data.setFloat32(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
-        this.position += ByteArraySize.SIZE_OF_FLOAT32;
-    }
-
-    /**
-     * Write a 32-bit signed integer into the byte stream
-     * @param value An integer to be written into the byte stream
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 在字节流中写入一个带符号的 32 位整数
-     * @param value 要写入字节流的整数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeInt(value: number): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_INT32);
-        this.data.setInt32(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
-        this.position += ByteArraySize.SIZE_OF_INT32;
-    }
-
-    /**
-     * Write a 16-bit integer into the byte stream. The low 16 bits of the parameter are used. The high 16 bits are ignored.
-     * @param value A 32-bit integer. Its low 16 bits will be written into the byte stream
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 在字节流中写入一个 16 位整数。使用参数的低 16 位。忽略高 16 位
-     * @param value 32 位整数，该整数的低 16 位将被写入字节流
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeShort(value: number): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_INT16);
-        this.data.setInt16(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
-        this.position += ByteArraySize.SIZE_OF_INT16;
-    }
-
-    /**
-     * Write a 32-bit unsigned integer into the byte stream
-     * @param value An unsigned integer to be written into the byte stream
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 在字节流中写入一个无符号的 32 位整数
-     * @param value 要写入字节流的无符号整数
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeUnsignedInt(value: number): void {
-        this.validateBuffer(ByteArraySize.SIZE_OF_UINT32);
-        this.data.setUint32(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
-        this.position += ByteArraySize.SIZE_OF_UINT32;
-    }
-
-    /**
-     * Write a 16-bit unsigned integer into the byte stream
-     * @param value An unsigned integer to be written into the byte stream
-     * @version Egret 2.5
-     * @platform Web,Native
-     * @language en_US
-     */
     /**
      * 在字节流中写入一个无符号的 16 位整数
      * @param value 要写入字节流的无符号整数
@@ -713,58 +356,6 @@ export default class ByteArray {
         this.validateBuffer(ByteArraySize.SIZE_OF_UINT16);
         this.data.setUint16(this._position, value, this.$endian == EndianConst.LITTLE_ENDIAN);
         this.position += ByteArraySize.SIZE_OF_UINT16;
-    }
-
-    /**
-     * Write a UTF-8 string into the byte stream. The length of the UTF-8 string in bytes is written first, as a 16-bit integer, followed by the bytes representing the characters of the string
-     * @param value Character string value to be written
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 将 UTF-8 字符串写入字节流。先写入以字节表示的 UTF-8 字符串长度（作为 16 位整数），然后写入表示字符串字符的字节
-     * @param value 要写入的字符串值
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeUTF(value: string): void {
-        let utf8bytes: ArrayLike<number> = this.encodeUTF8(value);
-        let length: number = utf8bytes.length;
-        this.validateBuffer(ByteArraySize.SIZE_OF_UINT16 + length);
-        this.data.setUint16(this._position, length, this.$endian == EndianConst.LITTLE_ENDIAN);
-        this.position += ByteArraySize.SIZE_OF_UINT16;
-        this.writeUint8Array(utf8bytes, false);
-    }
-
-    /**
-     * Write a UTF-8 string into the byte stream. Similar to the writeUTF() method, but the writeUTFBytes() method does not prefix the string with a 16-bit length word
-     * @param value Character string value to be written
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language en_US
-     */
-    /**
-     * 将 UTF-8 字符串写入字节流。类似于 writeUTF() 方法，但 writeUTFBytes() 不使用 16 位长度的词为字符串添加前缀
-     * @param value 要写入的字符串值
-     * @version Egret 2.4
-     * @platform Web,Native
-     * @language zh_CN
-     */
-    public writeUTFBytes(value: string): void {
-        this.writeUint8Array(this.encodeUTF8(value));
-    }
-
-
-    /**
-     *
-     * @returns
-     * @version Egret 2.4
-     * @platform Web,Native
-     */
-    public toString(): string {
-        return "[ByteArray] length:" + this.length + ", bytesAvailable:" + this.bytesAvailable;
     }
 
     /**
@@ -798,10 +389,7 @@ export default class ByteArray {
            // egret.$error(1025);
         }
     }
-
-    /**********************/
-    /*  PRIVATE METHODS   */
-    /**********************/
+    
     /**
      * @private
      * @param len
@@ -811,231 +399,5 @@ export default class ByteArray {
         this.write_position = len > this.write_position ? len : this.write_position;
         len += this._position;
         this._validateBuffer(len);
-    }
-
-    /**
-     * @private
-     * UTF-8 Encoding/Decoding
-     */
-    private encodeUTF8(str: string): Uint8Array {
-        let pos: number = 0;
-        let codePoints = this.stringToCodePoints(str);
-        let outputBytes = [];
-
-        while (codePoints.length > pos) {
-            let code_point: number = codePoints[pos++];
-
-            if (this.inRange(code_point, 0xD800, 0xDFFF)) {
-                this.encoderError(code_point);
-            }
-            else if (this.inRange(code_point, 0x0000, 0x007f)) {
-                outputBytes.push(code_point);
-            } else {
-                let count, offset;
-                if (this.inRange(code_point, 0x0080, 0x07FF)) {
-                    count = 1;
-                    offset = 0xC0;
-                } else if (this.inRange(code_point, 0x0800, 0xFFFF)) {
-                    count = 2;
-                    offset = 0xE0;
-                } else if (this.inRange(code_point, 0x10000, 0x10FFFF)) {
-                    count = 3;
-                    offset = 0xF0;
-                }
-
-                outputBytes.push(this.div(code_point, Math.pow(64, count)) + offset);
-
-                while (count > 0) {
-                    let temp = this.div(code_point, Math.pow(64, count - 1));
-                    outputBytes.push(0x80 + (temp % 64));
-                    count -= 1;
-                }
-            }
-        }
-        return new Uint8Array(outputBytes);
-    }
-
-    /**
-     * @private
-     *
-     * @param data
-     * @returns
-     */
-    private decodeUTF8(data: Uint8Array): string {
-        let fatal: boolean = false;
-        let pos: number = 0;
-        let result: string = "";
-        let code_point: number;
-        let utf8_code_point = 0;
-        let utf8_bytes_needed = 0;
-        let utf8_bytes_seen = 0;
-        let utf8_lower_boundary = 0;
-
-        while (data.length > pos) {
-
-            let _byte = data[pos++];
-
-            if (_byte == this.EOF_byte) {
-                if (utf8_bytes_needed != 0) {
-                    code_point = this.decoderError(fatal);
-                } else {
-                    code_point = this.EOF_code_point;
-                }
-            } else {
-
-                if (utf8_bytes_needed == 0) {
-                    if (this.inRange(_byte, 0x00, 0x7F)) {
-                        code_point = _byte;
-                    } else {
-                        if (this.inRange(_byte, 0xC2, 0xDF)) {
-                            utf8_bytes_needed = 1;
-                            utf8_lower_boundary = 0x80;
-                            utf8_code_point = _byte - 0xC0;
-                        } else if (this.inRange(_byte, 0xE0, 0xEF)) {
-                            utf8_bytes_needed = 2;
-                            utf8_lower_boundary = 0x800;
-                            utf8_code_point = _byte - 0xE0;
-                        } else if (this.inRange(_byte, 0xF0, 0xF4)) {
-                            utf8_bytes_needed = 3;
-                            utf8_lower_boundary = 0x10000;
-                            utf8_code_point = _byte - 0xF0;
-                        } else {
-                            this.decoderError(fatal);
-                        }
-                        utf8_code_point = utf8_code_point * Math.pow(64, utf8_bytes_needed);
-                        code_point = null;
-                    }
-                } else if (!this.inRange(_byte, 0x80, 0xBF)) {
-                    utf8_code_point = 0;
-                    utf8_bytes_needed = 0;
-                    utf8_bytes_seen = 0;
-                    utf8_lower_boundary = 0;
-                    pos--;
-                    code_point = this.decoderError(fatal, _byte);
-                } else {
-
-                    utf8_bytes_seen += 1;
-                    utf8_code_point = utf8_code_point + (_byte - 0x80) * Math.pow(64, utf8_bytes_needed - utf8_bytes_seen);
-
-                    if (utf8_bytes_seen !== utf8_bytes_needed) {
-                        code_point = null;
-                    } else {
-
-                        let cp = utf8_code_point;
-                        let lower_boundary = utf8_lower_boundary;
-                        utf8_code_point = 0;
-                        utf8_bytes_needed = 0;
-                        utf8_bytes_seen = 0;
-                        utf8_lower_boundary = 0;
-                        if (this.inRange(cp, lower_boundary, 0x10FFFF) && !this.inRange(cp, 0xD800, 0xDFFF)) {
-                            code_point = cp;
-                        } else {
-                            code_point = this.decoderError(fatal, _byte);
-                        }
-                    }
-
-                }
-            }
-            //Decode string
-            if (code_point !== null && code_point !== this.EOF_code_point) {
-                if (code_point <= 0xFFFF) {
-                    if (code_point > 0) result += String.fromCharCode(code_point);
-                } else {
-                    code_point -= 0x10000;
-                    result += String.fromCharCode(0xD800 + ((code_point >> 10) & 0x3ff));
-                    result += String.fromCharCode(0xDC00 + (code_point & 0x3ff));
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * @private
-     *
-     * @param code_point
-     */
-    private encoderError(code_point) {
-       // egret.$error(1026, code_point);
-    }
-
-    /**
-     * @private
-     *
-     * @param fatal
-     * @param opt_code_point
-     * @returns
-     */
-    private decoderError(fatal, opt_code_point?): number {
-        if (fatal) {
-           // egret.$error(1027);
-        }
-        return opt_code_point || 0xFFFD;
-    }
-
-    /**
-     * @private
-     */
-    private EOF_byte: number = -1;
-    /**
-     * @private
-     */
-    private EOF_code_point: number = -1;
-
-    /**
-     * @private
-     *
-     * @param a
-     * @param min
-     * @param max
-     */
-    private inRange(a, min, max) {
-        return min <= a && a <= max;
-    }
-
-    /**
-     * @private
-     *
-     * @param n
-     * @param d
-     */
-    private div(n, d) {
-        return Math.floor(n / d);
-    }
-
-    /**
-     * @private
-     *
-     * @param string
-     */
-    private stringToCodePoints(string) {
-        /** @type {Array.<number>} */
-        let cps = [];
-        // Based on http://www.w3.org/TR/WebIDL/#idl-DOMString
-        let i = 0, n = string.length;
-        while (i < string.length) {
-            let c = string.charCodeAt(i);
-            if (!this.inRange(c, 0xD800, 0xDFFF)) {
-                cps.push(c);
-            } else if (this.inRange(c, 0xDC00, 0xDFFF)) {
-                cps.push(0xFFFD);
-            } else { // (inRange(c, 0xD800, 0xDBFF))
-                if (i == n - 1) {
-                    cps.push(0xFFFD);
-                } else {
-                    let d = string.charCodeAt(i + 1);
-                    if (this.inRange(d, 0xDC00, 0xDFFF)) {
-                        let a = c & 0x3FF;
-                        let b = d & 0x3FF;
-                        i += 1;
-                        cps.push(0x10000 + (a << 10) + b);
-                    } else {
-                        cps.push(0xFFFD);
-                    }
-                }
-            }
-            i += 1;
-        }
-        return cps;
-    }
+    }  
 }
