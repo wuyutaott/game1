@@ -2207,6 +2207,12 @@ export namespace proto {
 
     /** Properties of a S2C_Test. */
     interface IS2C_Test {
+
+        /** S2C_Test id1 */
+        id1?: (number|null);
+
+        /** S2C_Test id2 */
+        id2?: (number|Long|null);
     }
 
     /** Represents a S2C_Test. */
@@ -2217,6 +2223,12 @@ export namespace proto {
          * @param [properties] Properties to set
          */
         constructor(properties?: proto.IS2C_Test);
+
+        /** S2C_Test id1. */
+        public id1: number;
+
+        /** S2C_Test id2. */
+        public id2: (number|Long);
 
         /**
          * Creates a new S2C_Test instance using the specified properties.
