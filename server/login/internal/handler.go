@@ -1,9 +1,12 @@
 package internal
 
 import (
+	"errors"
 	"fmt"
 	"github.com/wuyutaott/leaf/gate"
+	"gorm.io/gorm"
 	"reflect"
+	"server/base"
 	"server/msg/proto"
 )
 
@@ -50,9 +53,8 @@ func C2S_Login(args []interface{}) {
 	//}})
 
 	// 根据账号信息查询数据库
-	user := User{}
-	result := mysql.DB.Where("name = ?", req.Account).First(&user)
-	if result.Error != nil {
+	user := base.User{}
+	if err := mysql.DB.Where("name = ?", req.Account).First(&user).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 		fmt.Println("没有找到")
 		return
 	}
