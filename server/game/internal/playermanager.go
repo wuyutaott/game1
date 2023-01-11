@@ -1,7 +1,7 @@
 package internal
 
 type PlayerManager struct {
-	PlayerMap map[string]*Player
+	PlayerMap map[uint32]*Player
 }
 
 func NewPlayerManager() *PlayerManager {
@@ -11,19 +11,19 @@ func NewPlayerManager() *PlayerManager {
 }
 
 func (p *PlayerManager) Init() {
-	p.PlayerMap = make(map[string]*Player)
+	p.PlayerMap = make(map[uint32]*Player)
 }
 
-func (p *PlayerManager) Get(id string) *Player {
+func (p *PlayerManager) Get(id uint32) *Player {
 	return p.PlayerMap[id]
 }
 
 func (p *PlayerManager) AddPlayer(player *Player) {
-	p.PlayerMap[player.objid] = player
+	p.PlayerMap[player.ID] = player
 }
 
-func (p *PlayerManager) DelPlayer(objid string) {
-	delete(p.PlayerMap, objid)
+func (p *PlayerManager) DelPlayer(id uint32) {
+	delete(p.PlayerMap, id)
 }
 
 func (p *PlayerManager) Close() {

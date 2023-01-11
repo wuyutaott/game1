@@ -3,15 +3,13 @@ package internal
 import (
 	"github.com/wuyutaott/leaf/gate"
 	"github.com/wuyutaott/leaf/log"
-	"github.com/wuyutaott/leaf/util"
-	"server/base"
 )
 
 type Player struct {
-	objid   string
-	agent   gate.Agent
-	UID     int64
-	Account string
+	ID    uint32
+	Name  string
+	Pwd   string
+	agent gate.Agent
 }
 
 func CreatePlayer() *Player {
@@ -20,11 +18,11 @@ func CreatePlayer() *Player {
 }
 
 func (p *Player) Save() {
-	mgodb.Set(base.DBTask{p.objid, base.DBNAME, base.PLAYERSET, "_id", base.BsonObjectID(p.objid), util.DeepClone(p), func(param interface{}, err error) {
-		if nil != err {
-			log.Error("save playerdata failed:", p.objid)
-		}
-	}})
+	//mgodb.Set(base.DBTask{p.objid, base.DBNAME, base.PLAYERSET, "_id", base.BsonObjectID(p.objid), util.DeepClone(p), func(param interface{}, err error) {
+	//	if nil != err {
+	//		log.Error("save playerdata failed:", p.objid)
+	//	}
+	//}})
 }
 
 func (p *Player) SaveSync() {
@@ -32,8 +30,8 @@ func (p *Player) SaveSync() {
 }
 
 func (p *Player) InitData(account string) {
-	p.Account = account
-	p.UID = uidbuilder.GenerateUID()
+	//p.Account = account
+	//p.UID = uidbuilder.GenerateUID()
 }
 
 func (p *Player) OnLogin() {

@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"reflect"
 	"server/base"
+	"server/game"
 	"server/msg/proto"
 )
 
@@ -73,9 +74,17 @@ func C2S_Login(args []interface{}) {
 		return
 	}
 
-	// 如果不存在则创建一条新记录
-	// 密码判定
+	agent.SetUserData(&user)
 
+	skeleton.AsynCall(game.ChanRPC, "LoginSuccess", agent, func(err error) {
+		if nil != err {
+			log.Error("login failed:", user.ID, " ", err.Error())
+			agent.WriteMsg(&proto.S2C_Login{
+				Error: proto.ErrorCode_internal,
+			})
+			return
+		}
+	})
 }
 
 func C2S_Test(args []interface{}) {

@@ -3,7 +3,7 @@ package base
 import "time"
 
 type User struct {
-	ID        uint   `gorm:"primaryKey"`
+	ID        uint32 `gorm:"primaryKey"`
 	Name      string `gorm:"unique"`
 	Pwd       string
 	CreatedAt time.Time

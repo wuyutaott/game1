@@ -1,20 +1,22 @@
 package internal
 
 import (
-	"github.com/wuyutaott/leaf/log"
 	"github.com/wuyutaott/leaf/module"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	syslog "log"
+	"os"
 	"server/base"
-	"server/conf"
 	"server/db"
+	"time"
 )
 
 var (
-	skeleton   = base.NewSkeleton()
-	ChanRPC    = skeleton.ChanRPCServer
-	PlayerMgr  = NewPlayerManager()
-	RoomMgr    = NewRoomManager()
-	mgodb      = new(db.Mongodb)
-	uidbuilder = new(UidBuilder)
+	skeleton  = base.NewSkeleton()
+	ChanRPC   = skeleton.ChanRPCServer
+	PlayerMgr = NewPlayerManager()
+	RoomMgr   = NewRoomManager()
+	mysql     = new(db.MySql)
 )
 
 type Module struct {
@@ -24,20 +26,19 @@ type Module struct {
 func (m *Module) OnInit() {
 	m.Skeleton = skeleton
 
-	var err error
-	mgodb, err = db.Dial(conf.Server.MgodbAddr, conf.Server.GameMgoConnNum, skeleton)
-	if nil == mgodb {
-		log.Error("dial mongodb failed:", conf.Server.MgodbAddr, " ", err.Error())
-		return
-	}
-
-	mgodb.EnsureUniqueIndex(base.DBNAME, base.PLAYERSET, []string{"uid"})
-
-	uidbuilder.Init()
+	customLogger := logger.New(syslog.New(os.Stdout, "\r\n", syslog.LstdFlags), logger.Config{
+		SlowThreshold:             200 * time.Millisecond,
+		LogLevel:                  logger.Warn,
+		IgnoreRecordNotFoundError: true,
+		Colorful:                  true,
+	})
+	mysql.Open("root:@tcp(127.0.0.1:3306)/game1?charset=utf8mb4&parseTime=True&loc=Local", &gorm.Config{
+		Logger: customLogger,
+	})
 }
 
 func (m *Module) OnDestroy() {
 	RoomMgr.Close()
 	PlayerMgr.Close()
-	mgodb.Close()
+	mysql.Close()
 }
