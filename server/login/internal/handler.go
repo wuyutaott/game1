@@ -2,8 +2,8 @@ package internal
 
 import (
 	"errors"
-	"fmt"
 	"github.com/wuyutaott/leaf/gate"
+	"github.com/wuyutaott/leaf/log"
 	"gorm.io/gorm"
 	"reflect"
 	"server/base"
@@ -21,7 +21,7 @@ func handler(m interface{}, h interface{}) {
 
 func C2S_Login(args []interface{}) {
 	req := args[0].(*proto.C2S_Login)
-	//agent := args[1].(gate.Agent)
+	agent := args[1].(gate.Agent)
 
 	//mgodb.Get(base.DBTask{req.Account, base.DBNAME, base.ACCOUNTSET, "account", req.Account, &base.AccountInfo{}, func(param interface{}, err error) {
 	//	info := param.(*base.AccountInfo)
@@ -55,10 +55,23 @@ func C2S_Login(args []interface{}) {
 	// 根据账号信息查询数据库
 	user := base.User{}
 	if err := mysql.DB.Where("name = ?", req.Account).First(&user).Error; errors.Is(err, gorm.ErrRecordNotFound) {
-		fmt.Println("没有找到")
+		user.Name = req.Account
+		user.Pwd = req.Pwd
+		result := mysql.DB.Create(&user)
+		if result.Error != nil {
+			log.Debug("玩家不存在，创建失败！%+v", user)
+		}
+		log.Debug("玩家不存在，创建成功！%+v", user)
+	} else {
+		log.Debug("玩家存在！%+v", user)
+	}
+
+	if user.Pwd != req.Pwd {
+		agent.WriteMsg(&proto.S2C_Login{
+			Error: proto.ErrorCode_login_pwd_error,
+		})
 		return
 	}
-	fmt.Printf("找到用户 %v \n", user)
 
 	// 如果不存在则创建一条新记录
 	// 密码判定
