@@ -16,7 +16,7 @@ func init() {
 func rpcNewAgent(args []interface{}) {
 	a := args[0].(gate.Agent)
 	_ = a
-	log.Debug("新客户端登录")
+	log.Debug("新客户端连接")
 }
 
 func rpcCloseAgent(args []interface{}) {
