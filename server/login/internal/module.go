@@ -1,15 +1,13 @@
 package internal
 
 import (
+	"fmt"
 	"github.com/wuyutaott/leaf/log"
 	"github.com/wuyutaott/leaf/module"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	syslog "log"
-	"os"
 	"server/base"
 	"server/db"
-	"time"
 )
 
 var (
@@ -23,18 +21,16 @@ type Module struct {
 }
 
 func (m *Module) OnInit() {
-	log.Debug("login OnInit")
 	m.Skeleton = skeleton
 
-	customLogger := logger.New(syslog.New(os.Stdout, "\r\n", syslog.LstdFlags), logger.Config{
-		SlowThreshold:             200 * time.Millisecond,
-		LogLevel:                  logger.Warn,
-		IgnoreRecordNotFoundError: true,
-		Colorful:                  true,
+	dsn := fmt.Sprintf("root:@tcp(127.0.0.1:3306)/game1?charset=utf8mb4&parseTime=True&loc=Local")
+	err := mysql.Open(dsn, &gorm.Config{
+		Logger: logger.Discard,
 	})
-	mysql.Open("root:@tcp(127.0.0.1:3306)/game1?charset=utf8mb4&parseTime=True&loc=Local", &gorm.Config{
-		Logger: customLogger,
-	})
+	if err != nil {
+		log.Error("login连接数据库失败！err = %v", err)
+		return
+	}
 	mysql.DB.AutoMigrate(&base.User{})
 }
 
