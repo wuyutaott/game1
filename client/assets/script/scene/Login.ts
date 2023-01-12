@@ -1,4 +1,4 @@
-import { URI } from "../cfg/cfg_global";
+import { SCENE, URI } from "../cfg/cfg_global";
 import { cmd } from "../cmd/opcode";
 import { proto } from "../cmd/proto";
 import MsgCenter from "../common/net/MsgCenter";
@@ -30,6 +30,8 @@ export default class Login extends cc.Component {
     }
 
     S2C_Login(msg: proto.S2C_Login) {
-        
+        if (msg.error == proto.ErrorCode.ok) {            
+            cc.director.loadScene(SCENE.LOBBY)
+        }
     }
 }

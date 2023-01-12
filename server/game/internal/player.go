@@ -35,11 +35,11 @@ func (p *Player) InitData(account string) {
 }
 
 func (p *Player) OnLogin() {
-	log.Debug("Player 登录成功")
+	log.Debug("Player OnLogin")
 }
 
 func (p *Player) OnLogout() {
-	log.Debug("Player 退出")
+	log.Debug("Player OnLogout")
 }
 
 func (p *Player) Send(msg interface{}) {

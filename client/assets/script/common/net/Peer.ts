@@ -38,11 +38,13 @@ export default class Peer extends cc.EventTarget {
     }
 
     private onclose(ev: CloseEvent) {
-        this.emit(Peer.ON_CLOSE);
+        console.log('peer onclose');
+        this.emit(Peer.ON_CLOSE, this);
     }
 
     private onerror(ev: Event) {
-        this.emit(Peer.ON_ERROR);
+        console.log('peer onerror');
+        this.emit(Peer.ON_ERROR, this);
     }
 
     private onmessage(ev: MessageEvent) {

@@ -14,23 +14,24 @@ export default class MsgCenter extends cc.EventTarget {
         return MsgCenter.instance;
     }    
 
-    perMap: Map<number, Peer> = new Map;
+    peerMap: Map<number, Peer> = new Map;
     curPerId: number = 0;
 
     public connect(url: string) {
         let peer = new Peer();
         peer.connect(url);
         let id = peer.getID();
-        this.perMap.set(id, peer);
+        this.peerMap.set(id, peer);
         this.curPerId = id;
         peer.on(Peer.ON_MESSAGE, this.onMessage, this);
+        peer.on(Peer.ON_CLOSE, this.onPeerClose, this);
     }
 
     public close() {
-        this.perMap.forEach((peer) => {
+        this.peerMap.forEach((peer) => {
             peer.close();
         })
-        this.perMap.clear();
+        this.peerMap.clear();
         this.curPerId = 0;
     }
 
@@ -69,7 +70,7 @@ export default class MsgCenter extends cc.EventTarget {
     }
 
     getPeer(): Peer {        
-        return this.perMap.get(this.curPerId);
+        return this.peerMap.get(this.curPerId);
     }
 
     /**
@@ -99,5 +100,13 @@ export default class MsgCenter extends cc.EventTarget {
         } else {
             Log.d(`opCode未注册->${opCode}`);
         }
+    }
+
+    /**
+     * peer关闭回调
+     * @param peer 
+     */
+    private onPeerClose(peer: Peer) {
+        this.peerMap.delete(peer.getID())
     }
 }

@@ -16,6 +16,7 @@ func init() {
 	handler(&proto.C2S_Speak{}, C2S_Speak)
 	handler(&proto.C2S_Ready{}, C2S_Ready)
 	handler(&proto.C2S_RoomList{}, C2S_RoomList)
+	handler(&proto.C2S_Test{}, C2S_Test)
 }
 
 func handler(m interface{}, h interface{}) {
@@ -101,5 +102,14 @@ func C2S_RoomList(args []interface{}) {
 
 	c.WriteMsg(&proto.S2C_RoomList{
 		RoomInfos: roomVec,
+	})
+}
+
+func C2S_Test(args []interface{}) {
+	_ = args[0].(*proto.C2S_Test)
+	agent := args[1].(gate.Agent)
+	agent.WriteMsg(&proto.S2C_Test{
+		Id1: 1112223334,
+		Id2: 1222333444,
 	})
 }

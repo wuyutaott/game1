@@ -16,7 +16,7 @@ func init() {
 	msg.Processor.SetRouter(&proto.C2S_Speak{}, game.ChanRPC)
 	msg.Processor.SetRouter(&proto.C2S_Ready{}, game.ChanRPC)
 	msg.Processor.SetRouter(&proto.C2S_RoomList{}, game.ChanRPC)
+	msg.Processor.SetRouter(&proto.C2S_Test{}, game.ChanRPC)
 
 	msg.Processor.SetRouter(&proto.C2S_Login{}, login.ChanRPC)
-	msg.Processor.SetRouter(&proto.C2S_Test{}, login.ChanRPC)
 }
