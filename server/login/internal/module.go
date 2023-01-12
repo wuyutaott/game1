@@ -28,8 +28,7 @@ func (m *Module) OnInit() {
 		Logger: logger.Discard,
 	})
 	if err != nil {
-		log.Error("login连接数据库失败！err = %v", err)
-		return
+		panic(err)
 	}
 	mysql.DB.AutoMigrate(&base.User{})
 }

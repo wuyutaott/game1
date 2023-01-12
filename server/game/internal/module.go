@@ -1,7 +1,6 @@
 package internal
 
 import (
-	"github.com/wuyutaott/leaf/log"
 	"github.com/wuyutaott/leaf/module"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -29,8 +28,7 @@ func (m *Module) OnInit() {
 		Logger: logger.Discard,
 	})
 	if err != nil {
-		log.Error("game连接数据库失败！err = %v", err)
-		return
+		panic(err)
 	}
 }
 
