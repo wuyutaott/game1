@@ -645,14 +645,8 @@ export namespace proto {
         /** PlayerInfo id */
         id?: (number|null);
 
-        /** PlayerInfo nickname */
-        nickname?: (string|null);
-
-        /** PlayerInfo head */
-        head?: (string|null);
-
-        /** PlayerInfo gold */
-        gold?: (number|Long|null);
+        /** PlayerInfo name */
+        name?: (string|null);
     }
 
     /** Represents a PlayerInfo. */
@@ -667,14 +661,8 @@ export namespace proto {
         /** PlayerInfo id. */
         public id: number;
 
-        /** PlayerInfo nickname. */
-        public nickname: string;
-
-        /** PlayerInfo head. */
-        public head: string;
-
-        /** PlayerInfo gold. */
-        public gold: (number|Long);
+        /** PlayerInfo name. */
+        public name: string;
 
         /**
          * Creates a new PlayerInfo instance using the specified properties.

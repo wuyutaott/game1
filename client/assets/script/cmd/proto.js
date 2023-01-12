@@ -1,7 +1,7 @@
 /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
 "use strict";
 
-var $protobuf = require("protobuf");
+var $protobuf = require("protobufjs/minimal");
 
 // Common aliases
 var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
@@ -1379,9 +1379,7 @@ $root.proto = (function() {
          * @memberof proto
          * @interface IPlayerInfo
          * @property {number|null} [id] PlayerInfo id
-         * @property {string|null} [nickname] PlayerInfo nickname
-         * @property {string|null} [head] PlayerInfo head
-         * @property {number|Long|null} [gold] PlayerInfo gold
+         * @property {string|null} [name] PlayerInfo name
          */
 
         /**
@@ -1408,28 +1406,12 @@ $root.proto = (function() {
         PlayerInfo.prototype.id = 0;
 
         /**
-         * PlayerInfo nickname.
-         * @member {string} nickname
+         * PlayerInfo name.
+         * @member {string} name
          * @memberof proto.PlayerInfo
          * @instance
          */
-        PlayerInfo.prototype.nickname = "";
-
-        /**
-         * PlayerInfo head.
-         * @member {string} head
-         * @memberof proto.PlayerInfo
-         * @instance
-         */
-        PlayerInfo.prototype.head = "";
-
-        /**
-         * PlayerInfo gold.
-         * @member {number|Long} gold
-         * @memberof proto.PlayerInfo
-         * @instance
-         */
-        PlayerInfo.prototype.gold = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
+        PlayerInfo.prototype.name = "";
 
         /**
          * Creates a new PlayerInfo instance using the specified properties.
@@ -1456,13 +1438,9 @@ $root.proto = (function() {
             if (!writer)
                 writer = $Writer.create();
             if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
-            if (message.nickname != null && Object.hasOwnProperty.call(message, "nickname"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.nickname);
-            if (message.head != null && Object.hasOwnProperty.call(message, "head"))
-                writer.uint32(/* id 3, wireType 2 =*/26).string(message.head);
-            if (message.gold != null && Object.hasOwnProperty.call(message, "gold"))
-                writer.uint32(/* id 4, wireType 0 =*/32).int64(message.gold);
+                writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
             return writer;
         };
 
@@ -1498,16 +1476,10 @@ $root.proto = (function() {
                 var tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1:
-                    message.id = reader.int32();
+                    message.id = reader.uint32();
                     break;
                 case 2:
-                    message.nickname = reader.string();
-                    break;
-                case 3:
-                    message.head = reader.string();
-                    break;
-                case 4:
-                    message.gold = reader.int64();
+                    message.name = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -1547,15 +1519,9 @@ $root.proto = (function() {
             if (message.id != null && message.hasOwnProperty("id"))
                 if (!$util.isInteger(message.id))
                     return "id: integer expected";
-            if (message.nickname != null && message.hasOwnProperty("nickname"))
-                if (!$util.isString(message.nickname))
-                    return "nickname: string expected";
-            if (message.head != null && message.hasOwnProperty("head"))
-                if (!$util.isString(message.head))
-                    return "head: string expected";
-            if (message.gold != null && message.hasOwnProperty("gold"))
-                if (!$util.isInteger(message.gold) && !(message.gold && $util.isInteger(message.gold.low) && $util.isInteger(message.gold.high)))
-                    return "gold: integer|Long expected";
+            if (message.name != null && message.hasOwnProperty("name"))
+                if (!$util.isString(message.name))
+                    return "name: string expected";
             return null;
         };
 
@@ -1572,20 +1538,9 @@ $root.proto = (function() {
                 return object;
             var message = new $root.proto.PlayerInfo();
             if (object.id != null)
-                message.id = object.id | 0;
-            if (object.nickname != null)
-                message.nickname = String(object.nickname);
-            if (object.head != null)
-                message.head = String(object.head);
-            if (object.gold != null)
-                if ($util.Long)
-                    (message.gold = $util.Long.fromValue(object.gold)).unsigned = false;
-                else if (typeof object.gold === "string")
-                    message.gold = parseInt(object.gold, 10);
-                else if (typeof object.gold === "number")
-                    message.gold = object.gold;
-                else if (typeof object.gold === "object")
-                    message.gold = new $util.LongBits(object.gold.low >>> 0, object.gold.high >>> 0).toNumber();
+                message.id = object.id >>> 0;
+            if (object.name != null)
+                message.name = String(object.name);
             return message;
         };
 
@@ -1604,25 +1559,12 @@ $root.proto = (function() {
             var object = {};
             if (options.defaults) {
                 object.id = 0;
-                object.nickname = "";
-                object.head = "";
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, false);
-                    object.gold = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.gold = options.longs === String ? "0" : 0;
+                object.name = "";
             }
             if (message.id != null && message.hasOwnProperty("id"))
                 object.id = message.id;
-            if (message.nickname != null && message.hasOwnProperty("nickname"))
-                object.nickname = message.nickname;
-            if (message.head != null && message.hasOwnProperty("head"))
-                object.head = message.head;
-            if (message.gold != null && message.hasOwnProperty("gold"))
-                if (typeof message.gold === "number")
-                    object.gold = options.longs === String ? String(message.gold) : message.gold;
-                else
-                    object.gold = options.longs === String ? $util.Long.prototype.toString.call(message.gold) : options.longs === Number ? new $util.LongBits(message.gold.low >>> 0, message.gold.high >>> 0).toNumber() : message.gold;
+            if (message.name != null && message.hasOwnProperty("name"))
+                object.name = message.name;
             return object;
         };
 

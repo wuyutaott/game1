@@ -12,10 +12,8 @@ enum ErrorCode {
 
 // 玩家信息
 message PlayerInfo {
-    int32  	id                          = 1;    // 玩家id    
-    string 	nickname                    = 2;    // 昵称
-    string 	head                        = 3;    // 头像的地址 head://id 代表本地头像 http:// 或者https代表网络地址
-    int64  	gold                        = 4;    // 金币
+    uint32  id                          = 1;    // 玩家id    
+    string 	name                        = 2;    // 昵称        
 }
 
 // 游戏信息
